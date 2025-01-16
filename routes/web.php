@@ -15,3 +15,16 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+
+
+Route::resource('clients', App\Http\Controllers\ClientController::class);
+
+Route::resource('contacts', App\Http\Controllers\ContactController::class);
+
+Route::resource('projects', App\Http\Controllers\ProjectController::class);
+
+Route::resource('boxes', App\Http\Controllers\BoxController::class);
+
+Route::resource('mailboxes', App\Http\Controllers\MailboxController::class);

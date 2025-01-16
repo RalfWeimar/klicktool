@@ -23,7 +23,33 @@ class MailboxResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(200),
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->maxLength(200),
+                Forms\Components\TextInput::make('status')
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('average_time')
+                    ->required()
+                    ->numeric()
+                    ->default(60),
+                Forms\Components\TextInput::make('average_pay')
+                    ->required()
+                    ->numeric()
+                    ->default(600),
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
+                    ->required(),
+                Forms\Components\Select::make('project_id')
+                    ->relationship('project', 'name')
+                    ->required(),
+                Forms\Components\Select::make('box_id')
+                    ->relationship('box', 'name')
+                    ->required(),
             ]);
     }
 
@@ -31,7 +57,34 @@ class MailboxResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('average_time')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('average_pay')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('client.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('project.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('box.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

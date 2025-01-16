@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug', 200)->index();
             $table->enum('status', ["planned","active","finished"])->default('planned');
             $table->date('project_start');
-            $table->date('project_end')->default('31.12.2100');
+            $table->date('project_end')->default("2100-12-31");
             $table->text('description')->nullable();
             $table->foreignId('client_id');
             $table->unique(['slug', 'client_id']);

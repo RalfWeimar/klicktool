@@ -15,9 +15,9 @@ return new class extends Migration
 
         Schema::create('contact_projects', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('contact_id');
+            $table->unsignedBigInteger('contact_id');
             $table->foreign('contact_id')->references('id')->on('contact');
-            $table->bigInteger('project_id');
+            $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('project');
             $table->index(['contact_id', 'project_id']);
             $table->timestamps();

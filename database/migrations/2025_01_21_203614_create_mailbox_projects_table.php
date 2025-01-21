@@ -15,9 +15,9 @@ return new class extends Migration
 
         Schema::create('mailbox_projects', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('mailbox_id');
+            $table->unsignedBigInteger('mailbox_id');
             $table->foreign('mailbox_id')->references('id')->on('mailbox');
-            $table->bigInteger('project_id');
+            $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('project');
             $table->index(['mailbox_id', 'project_id']);
             $table->timestamps();

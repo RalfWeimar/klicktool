@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->index();
             $table->string('slug')->unique();
             $table->text('info')->nullable();
-            $table->bigInteger('client_id');
+            $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('client');
             $table->date('project_start')->nullable();
             $table->date('project_end')->default('2099-12-31');

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Contact;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -55,18 +54,21 @@ final class ContactControllerTest extends TestCase
     {
         $first_name = $this->faker->firstName();
         $last_name = $this->faker->lastName();
-        $client = Client::factory()->create();
+        $slug = $this->faker->slug();
+        $client_id = $this->faker->numberBetween(-100000, 100000);
 
         $response = $this->post(route('contacts.store'), [
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'client_id' => $client->id,
+            'slug' => $slug,
+            'client_id' => $client_id,
         ]);
 
         $contacts = Contact::query()
             ->where('first_name', $first_name)
             ->where('last_name', $last_name)
-            ->where('client_id', $client->id)
+            ->where('slug', $slug)
+            ->where('client_id', $client_id)
             ->get();
         $this->assertCount(1, $contacts);
         $contact = $contacts->first();
@@ -118,12 +120,14 @@ final class ContactControllerTest extends TestCase
         $contact = Contact::factory()->create();
         $first_name = $this->faker->firstName();
         $last_name = $this->faker->lastName();
-        $client = Client::factory()->create();
+        $slug = $this->faker->slug();
+        $client_id = $this->faker->numberBetween(-100000, 100000);
 
         $response = $this->put(route('contacts.update', $contact), [
             'first_name' => $first_name,
             'last_name' => $last_name,
-            'client_id' => $client->id,
+            'slug' => $slug,
+            'client_id' => $client_id,
         ]);
 
         $contact->refresh();
@@ -133,7 +137,8 @@ final class ContactControllerTest extends TestCase
 
         $this->assertEquals($first_name, $contact->first_name);
         $this->assertEquals($last_name, $contact->last_name);
-        $this->assertEquals($client->id, $contact->client_id);
+        $this->assertEquals($slug, $contact->slug);
+        $this->assertEquals($client_id, $contact->client_id);
     }
 
 

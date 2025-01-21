@@ -2,6 +2,6 @@
     @extends('layouts.app')
 
     @section('content')
-        box.edit template
+        employee.show template
     @endsection
 --}}

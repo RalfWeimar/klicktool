@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 200);
-            $table->string('slug', 200)->index();
-            $table->enum('status', ["planned","active","finished"])->default('planned');
-            $table->date('project_start');
-            $table->date('project_end')->default("2100-12-31");
-            $table->text('description')->nullable();
-            $table->foreignId('client_id');
-            $table->unique(['slug', 'client_id']);
+            $table->string('name')->index();
+            $table->string('slug')->unique();
+            $table->text('info')->nullable();
+            $table->bigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('client');
+            $table->date('project_start')->nullable();
+            $table->date('project_end')->default('2099-12-31');
+            $table->index(['slug', 'client_id']);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

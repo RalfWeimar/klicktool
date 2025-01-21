@@ -2,10 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Box;
-use App\Models\Client;
 use App\Models\Mailbox;
-use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JMac\Testing\Traits\AdditionalAssertions;
@@ -58,11 +55,8 @@ final class MailboxControllerTest extends TestCase
         $name = $this->faker->name();
         $slug = $this->faker->slug();
         $status = $this->faker->randomElement(/** enum_attributes **/);
-        $average_time = $this->faker->numberBetween(-10000, 10000);
-        $average_pay = $this->faker->numberBetween(-10000, 10000);
-        $client = Client::factory()->create();
-        $project = Project::factory()->create();
-        $box = Box::factory()->create();
+        $average_time = $this->faker->numberBetween(-100000, 100000);
+        $average_pay = $this->faker->numberBetween(-100000, 100000);
 
         $response = $this->post(route('mailboxes.store'), [
             'name' => $name,
@@ -70,9 +64,6 @@ final class MailboxControllerTest extends TestCase
             'status' => $status,
             'average_time' => $average_time,
             'average_pay' => $average_pay,
-            'client_id' => $client->id,
-            'project_id' => $project->id,
-            'box_id' => $box->id,
         ]);
 
         $mailboxes = Mailbox::query()
@@ -81,9 +72,6 @@ final class MailboxControllerTest extends TestCase
             ->where('status', $status)
             ->where('average_time', $average_time)
             ->where('average_pay', $average_pay)
-            ->where('client_id', $client->id)
-            ->where('project_id', $project->id)
-            ->where('box_id', $box->id)
             ->get();
         $this->assertCount(1, $mailboxes);
         $mailbox = $mailboxes->first();
@@ -136,11 +124,8 @@ final class MailboxControllerTest extends TestCase
         $name = $this->faker->name();
         $slug = $this->faker->slug();
         $status = $this->faker->randomElement(/** enum_attributes **/);
-        $average_time = $this->faker->numberBetween(-10000, 10000);
-        $average_pay = $this->faker->numberBetween(-10000, 10000);
-        $client = Client::factory()->create();
-        $project = Project::factory()->create();
-        $box = Box::factory()->create();
+        $average_time = $this->faker->numberBetween(-100000, 100000);
+        $average_pay = $this->faker->numberBetween(-100000, 100000);
 
         $response = $this->put(route('mailboxes.update', $mailbox), [
             'name' => $name,
@@ -148,9 +133,6 @@ final class MailboxControllerTest extends TestCase
             'status' => $status,
             'average_time' => $average_time,
             'average_pay' => $average_pay,
-            'client_id' => $client->id,
-            'project_id' => $project->id,
-            'box_id' => $box->id,
         ]);
 
         $mailbox->refresh();
@@ -163,9 +145,6 @@ final class MailboxControllerTest extends TestCase
         $this->assertEquals($status, $mailbox->status);
         $this->assertEquals($average_time, $mailbox->average_time);
         $this->assertEquals($average_pay, $mailbox->average_pay);
-        $this->assertEquals($client->id, $mailbox->client_id);
-        $this->assertEquals($project->id, $mailbox->project_id);
-        $this->assertEquals($box->id, $mailbox->box_id);
     }
 
 

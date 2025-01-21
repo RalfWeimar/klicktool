@@ -1,59 +1,68 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\ClientResource\RelationManagers;
 
-use App\Filament\Resources\ClientResource\Pages;
-use App\Filament\Resources\ClientResource\RelationManagers;
-use App\Filament\Resources\ClientResource\RelationManagers\ContactsRelationManager;
-use App\Models\Client;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClientResource extends Resource
+class ContactsRelationManager extends RelationManager
 {
-    protected static ?string $model = Client::class;
+    protected static string $relationship = 'contacts';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $title = 'Kontakte';
 
-    protected static ?string $navigationLabel = 'Klienten';
 
-    
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('first_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->hidden()
+                Forms\Components\TextInput::make('last_name')
+                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default(null),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\Textarea::make('info')
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('client_id')
+                    ->relationship('client', 'name')
+                    ->required(),
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('last_name')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('first_name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('last_name')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('client.name')
+                    ->numeric()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -66,29 +75,17 @@ class ClientResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->defaultSort('name', 'asc');
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            ContactsRelationManager::class,
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListClients::route('/'),
-            'create' => Pages\CreateClient::route('/create'),
-            'edit' => Pages\EditClient::route('/{record}/edit'),
-        ];
+            ]);
     }
 }

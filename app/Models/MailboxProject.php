@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Box extends Model
+class MailboxProject extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,8 @@ class Box extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'status',
+        'mailbox_id',
+        'project_id',
     ];
 
     /**
@@ -28,10 +27,17 @@ class Box extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'mailbox_id' => 'integer',
+        'project_id' => 'integer',
     ];
 
-    public function mailboxes(): BelongsToMany
+    public function mailbox(): BelongsTo
     {
-        return $this->belongsToMany(Mailbox::class);
+        return $this->belongsTo(Mailbox::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 }

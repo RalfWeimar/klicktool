@@ -10,6 +10,8 @@ class ListContacts extends ListRecords
 {
     protected static string $resource = ContactResource::class;
 
+    public static ?string $title = 'Kontakte';
+
     protected function getHeaderActions(): array
     {
         return [

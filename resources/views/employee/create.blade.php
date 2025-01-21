@@ -2,6 +2,6 @@
     @extends('layouts.app')
 
     @section('content')
-        box.create template
+        employee.create template
     @endsection
 --}}

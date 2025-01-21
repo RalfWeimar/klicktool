@@ -11,19 +11,19 @@ use Illuminate\View\View;
 
 class ContactController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $contacts = Contact::all();
 
         return view('contact.index', compact('contacts'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request): Response
     {
         return view('contact.create');
     }
 
-    public function store(ContactStoreRequest $request): RedirectResponse
+    public function store(ContactStoreRequest $request): Response
     {
         $contact = Contact::create($request->validated());
 
@@ -32,17 +32,17 @@ class ContactController extends Controller
         return redirect()->route('contacts.index');
     }
 
-    public function show(Request $request, Contact $contact): View
+    public function show(Request $request, Contact $contact): Response
     {
         return view('contact.show', compact('contact'));
     }
 
-    public function edit(Request $request, Contact $contact): View
+    public function edit(Request $request, Contact $contact): Response
     {
         return view('contact.edit', compact('contact'));
     }
 
-    public function update(ContactUpdateRequest $request, Contact $contact): RedirectResponse
+    public function update(ContactUpdateRequest $request, Contact $contact): Response
     {
         $contact->update($request->validated());
 
@@ -51,7 +51,7 @@ class ContactController extends Controller
         return redirect()->route('contacts.index');
     }
 
-    public function destroy(Request $request, Contact $contact): RedirectResponse
+    public function destroy(Request $request, Contact $contact): Response
     {
         $contact->delete();
 

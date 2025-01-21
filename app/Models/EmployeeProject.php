@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Mailbox extends Model
+class EmployeeProject extends Model
 {
     use HasFactory;
 
@@ -16,12 +16,8 @@ class Mailbox extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'slug',
-        'status',
-        'info',
-        'average_time',
-        'average_pay',
+        'employee_id',
+        'project_id',
     ];
 
     /**
@@ -31,9 +27,14 @@ class Mailbox extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'average_time' => 'integer',
-        'average_pay' => 'integer',
+        'employee_id' => 'integer',
+        'project_id' => 'integer',
     ];
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function project(): BelongsTo
     {

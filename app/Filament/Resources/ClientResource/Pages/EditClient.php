@@ -10,6 +10,8 @@ class EditClient extends EditRecord
 {
     protected static string $resource = ClientResource::class;
 
+    public static ?string $title = 'Klient bearbeiten';
+
     protected function getHeaderActions(): array
     {
         return [

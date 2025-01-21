@@ -24,11 +24,10 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'slug' => $this->faker->slug(),
-            'status' => $this->faker->randomElement(["planned","active","finished"]),
+            'info' => $this->faker->text(),
+            'client_id' => Client::factory(),
             'project_start' => $this->faker->date(),
             'project_end' => $this->faker->date(),
-            'description' => $this->faker->text(),
-            'client_id' => Client::factory(),
         ];
     }
 }

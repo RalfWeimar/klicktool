@@ -4,16 +4,16 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Client;
+use App\Models\Employee;
 
-class ClientFactory extends Factory
+class EmployeeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Client::class;
+    protected $model = Employee::class;
 
     /**
      * Define the model's default state.
@@ -21,10 +21,11 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
+            'info' => $this->faker->text(),
         ];
     }
 }

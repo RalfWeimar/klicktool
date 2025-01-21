@@ -11,19 +11,19 @@ use Illuminate\View\View;
 
 class MailboxController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $mailboxes = Mailbox::all();
 
         return view('mailbox.index', compact('mailboxes'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request): Response
     {
         return view('mailbox.create');
     }
 
-    public function store(MailboxStoreRequest $request): RedirectResponse
+    public function store(MailboxStoreRequest $request): Response
     {
         $mailbox = Mailbox::create($request->validated());
 
@@ -32,17 +32,17 @@ class MailboxController extends Controller
         return redirect()->route('mailboxes.index');
     }
 
-    public function show(Request $request, Mailbox $mailbox): View
+    public function show(Request $request, Mailbox $mailbox): Response
     {
         return view('mailbox.show', compact('mailbox'));
     }
 
-    public function edit(Request $request, Mailbox $mailbox): View
+    public function edit(Request $request, Mailbox $mailbox): Response
     {
         return view('mailbox.edit', compact('mailbox'));
     }
 
-    public function update(MailboxUpdateRequest $request, Mailbox $mailbox): RedirectResponse
+    public function update(MailboxUpdateRequest $request, Mailbox $mailbox): Response
     {
         $mailbox->update($request->validated());
 
@@ -51,7 +51,7 @@ class MailboxController extends Controller
         return redirect()->route('mailboxes.index');
     }
 
-    public function destroy(Request $request, Mailbox $mailbox): RedirectResponse
+    public function destroy(Request $request, Mailbox $mailbox): Response
     {
         $mailbox->delete();
 

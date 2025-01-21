@@ -16,12 +16,16 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'name' => 'Ralf Weimar',
+            'email' => 'ralfweimar@live.de',
+            'password' => "simone_01",
         ]);
 
         $this->call([
-            MailboxSeeder::class,
+            ClientSeeder::class,
+            ContactSeeder::class,
+            /* ProjectSeeder::class,
+            MailboxSeeder::class, */
         ]);
     }
 }

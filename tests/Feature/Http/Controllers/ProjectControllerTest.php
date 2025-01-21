@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -56,27 +55,21 @@ final class ProjectControllerTest extends TestCase
     {
         $name = $this->faker->name();
         $slug = $this->faker->slug();
-        $status = $this->faker->randomElement(/** enum_attributes **/);
-        $project_start = Carbon::parse($this->faker->date());
+        $client_id = $this->faker->numberBetween(-100000, 100000);
         $project_end = Carbon::parse($this->faker->date());
-        $client = Client::factory()->create();
 
         $response = $this->post(route('projects.store'), [
             'name' => $name,
             'slug' => $slug,
-            'status' => $status,
-            'project_start' => $project_start->toDateString(),
+            'client_id' => $client_id,
             'project_end' => $project_end->toDateString(),
-            'client_id' => $client->id,
         ]);
 
         $projects = Project::query()
             ->where('name', $name)
             ->where('slug', $slug)
-            ->where('status', $status)
-            ->where('project_start', $project_start)
+            ->where('client_id', $client_id)
             ->where('project_end', $project_end)
-            ->where('client_id', $client->id)
             ->get();
         $this->assertCount(1, $projects);
         $project = $projects->first();
@@ -128,18 +121,14 @@ final class ProjectControllerTest extends TestCase
         $project = Project::factory()->create();
         $name = $this->faker->name();
         $slug = $this->faker->slug();
-        $status = $this->faker->randomElement(/** enum_attributes **/);
-        $project_start = Carbon::parse($this->faker->date());
+        $client_id = $this->faker->numberBetween(-100000, 100000);
         $project_end = Carbon::parse($this->faker->date());
-        $client = Client::factory()->create();
 
         $response = $this->put(route('projects.update', $project), [
             'name' => $name,
             'slug' => $slug,
-            'status' => $status,
-            'project_start' => $project_start->toDateString(),
+            'client_id' => $client_id,
             'project_end' => $project_end->toDateString(),
-            'client_id' => $client->id,
         ]);
 
         $project->refresh();
@@ -149,10 +138,8 @@ final class ProjectControllerTest extends TestCase
 
         $this->assertEquals($name, $project->name);
         $this->assertEquals($slug, $project->slug);
-        $this->assertEquals($status, $project->status);
-        $this->assertEquals($project_start, $project->project_start);
+        $this->assertEquals($client_id, $project->client_id);
         $this->assertEquals($project_end, $project->project_end);
-        $this->assertEquals($client->id, $project->client_id);
     }
 
 

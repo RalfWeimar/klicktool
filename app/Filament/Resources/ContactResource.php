@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ContactResource\Pages;
-use App\Filament\Resources\ContactResource\RelationManagers;
 use App\Models\Contact;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -19,22 +18,27 @@ class ContactResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Kontakt';
+
+  
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('first_name')
                     ->required()
-                    ->maxLength(200),
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('last_name')
                     ->required()
-                    ->maxLength(200),
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->maxLength(200),
+                    ->maxLength(255)
+                    ->default(null),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
-                    ->maxLength(50),
+                    ->maxLength(255)
+                    ->default(null),
                 Forms\Components\Textarea::make('info')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('client_id')
@@ -50,6 +54,8 @@ class ContactResource extends Resource
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -83,7 +89,7 @@ class ContactResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            
         ];
     }
 

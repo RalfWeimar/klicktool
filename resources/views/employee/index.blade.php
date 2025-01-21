@@ -2,6 +2,6 @@
     @extends('layouts.app')
 
     @section('content')
-        box.index template
+        employee.index template
     @endsection
 --}}

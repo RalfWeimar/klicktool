@@ -19,11 +19,10 @@ class Project extends Model
     protected $fillable = [
         'name',
         'slug',
-        'status',
+        'info',
+        'client_id',
         'project_start',
         'project_end',
-        'description',
-        'client_id',
     ];
 
     /**
@@ -33,9 +32,9 @@ class Project extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'client_id' => 'integer',
         'project_start' => 'date',
         'project_end' => 'date',
-        'client_id' => 'integer',
     ];
 
     public function client(): BelongsTo
@@ -46,5 +45,15 @@ class Project extends Model
     public function contacts(): HasMany
     {
         return $this->hasMany(Contact::class);
+    }
+
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function mailboxes(): HasMany
+    {
+        return $this->hasMany(Mailbox::class);
     }
 }

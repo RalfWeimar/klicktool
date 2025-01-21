@@ -11,16 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 200);
-            $table->string('last_name', 200);
-            $table->string('email', 200)->nullable();
-            $table->string('phone', 50)->nullable();
+            $table->string('first_name');
+            $table->string('last_name')->index();
+            $table->string('slug')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->nullable();
             $table->text('info')->nullable();
-            $table->foreignId('client_id');
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
+            $table->index(['email']);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

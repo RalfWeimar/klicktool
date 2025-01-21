@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 200)->index();
-            $table->string('email', 200);
-            $table->string('phone', 50);
-            $table->text('info')->nullable();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->index(['name', 'slug']);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

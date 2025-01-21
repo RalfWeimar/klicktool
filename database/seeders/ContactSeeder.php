@@ -12,6 +12,25 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        Contact::factory()->count(5)->create();
+        Contact::factory()->create([
+            'first_name' => 'Heinz',
+            'last_name' => 'Müller',
+            'email' => 'heinz.mueller@bahn.de',
+            'client_id' => 1
+        ]);
+
+        Contact::factory()->create([
+            'first_name' => 'Manfred',
+            'last_name' => 'Schmidt',
+            'email' => 'manfred.schmidt@lichtblick.de',
+            'client_id' => 2
+        ]);
+
+        Contact::factory()->create([
+            'first_name' => 'Ursula',
+            'last_name' => 'Teslat',
+            'email' => 'ursula.teslat@bahn.de',
+            'client_id' => 1
+        ]);
     }
 }

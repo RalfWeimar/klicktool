@@ -11,19 +11,19 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $projects = Project::all();
 
         return view('project.index', compact('projects'));
     }
 
-    public function create(Request $request): View
+    public function create(Request $request): Response
     {
         return view('project.create');
     }
 
-    public function store(ProjectStoreRequest $request): RedirectResponse
+    public function store(ProjectStoreRequest $request): Response
     {
         $project = Project::create($request->validated());
 
@@ -32,17 +32,17 @@ class ProjectController extends Controller
         return redirect()->route('projects.index');
     }
 
-    public function show(Request $request, Project $project): View
+    public function show(Request $request, Project $project): Response
     {
         return view('project.show', compact('project'));
     }
 
-    public function edit(Request $request, Project $project): View
+    public function edit(Request $request, Project $project): Response
     {
         return view('project.edit', compact('project'));
     }
 
-    public function update(ProjectUpdateRequest $request, Project $project): RedirectResponse
+    public function update(ProjectUpdateRequest $request, Project $project): Response
     {
         $project->update($request->validated());
 
@@ -51,7 +51,7 @@ class ProjectController extends Controller
         return redirect()->route('projects.index');
     }
 
-    public function destroy(Request $request, Project $project): RedirectResponse
+    public function destroy(Request $request, Project $project): Response
     {
         $project->delete();
 

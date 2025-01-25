@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -45,9 +46,9 @@ class Client extends Model
         return 'slug';
     }
 
-    public function contacts()
+   public function contacts(): MorphToMany
     {
-        return $this->hasMany(\App\Models\Contact::class);
+        return $this->morphToMany(Contact::class, 'contactable');
     }
 
     public function projects(): HasMany

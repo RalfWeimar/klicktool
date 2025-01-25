@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,11 +19,10 @@ return new class extends Migration
             $table->string('name')->index();
             $table->string('slug')->unique();
             $table->text('info')->nullable();
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('client');
             $table->date('project_start')->nullable();
             $table->date('project_end')->default('2099-12-31');
-            $table->index(['slug', 'client_id']);
+            $table->string('status')->default(Status::Pending->value);
+            $table->index(['slug']);
             $table->timestamps();
         });
 

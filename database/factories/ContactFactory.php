@@ -28,7 +28,6 @@ class ContactFactory extends Factory
             'email' => $this->faker->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'info' => $this->faker->text(),
-            'client_id' => Client::factory(),
         ];
     }
 }

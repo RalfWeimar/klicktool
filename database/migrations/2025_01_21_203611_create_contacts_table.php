@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,8 +22,8 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->text('info')->nullable();
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
+            $table->enum('position', ["geschäftsführer","projektleiter","manager","teamleiter","abteilungsleiter","techniker","datenbanktechniker","servicemitarbeiter"])->default('manager');
+            $table->string('status')->default(Status::Pending->value);
             $table->index(['email']);
             $table->timestamps();
         });

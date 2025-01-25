@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -50,13 +53,15 @@ class Contact extends Model
         return 'slug';
     }
 
-    public function client(): BelongsTo
+   public function contactables(): MorphToMany
     {
-        return $this->belongsTo(Client::class);
+        return $this->morphToMany(Contactable::class, 'contactable');
     }
 
-    public function projects(): HasMany
+
+    public function projects(): BelongsToMany
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class);
     }
+    
 }

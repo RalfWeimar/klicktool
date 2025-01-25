@@ -14,11 +14,13 @@ class ClientSeeder extends Seeder
     {
         Client::factory()->create([
             'name' => 'Deutsche Bahn AG',
+            'slug' => 'deutsche-bahn-ag',
             'email' => 'info@bahn.de'
         ]);
 
         Client::factory()->create([
             'name' => 'Lichtblick AG',
+            'slug' => 'lichtblick-ag',
             'email' => 'info@lichtblick.de'
         ]);
     }
